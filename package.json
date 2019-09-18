@@ -1,0 +1,32 @@
+{
+  "name": "jsproject",
+  "version": "0.1.0",
+  "description": "Dgraph Project Starter",
+  "main": "index.ts",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jason Sprouse",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "debug": "^4.1.1",
+    "dgraph-js": "^2.0.1",
+    "dotenv": "^8.1.0",
+    "grpc": "^1.23.3",
+    "gverse": "^0.3.7",
+    "lodash": "^4.17.15",
+    "typescript": "^3.6.3",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/node": "^7.6.1",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-env": "^7.6.0",
+    "@types/google-protobuf": "^3.7.1",
+    "@types/protobufjs": "^6.0.0",
+    "nodemon": "^1.19.2"
+  }
+}
