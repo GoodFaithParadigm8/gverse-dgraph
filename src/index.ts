@@ -1,22 +1,73 @@
-const dgraph = require("dgraph-js");
-const grpc = require("grpc");
+import dgraph from 'dgraph-orm';
+ 
+const UserSchema = new dgraph.Schema('user', {
+  name: {
+    type: dgraph.Types.STRING,
+    index: true,
+    token: {
+      term: true
+    }
+  },
+  email: {
+    type: dgraph.Types.STRING,
+    index: true,
+    unique: true,
+    token: {
+      exact: true
+    }
+  },
+  password: dgraph.Types.PASSWORD,
+  bio: dgraph.Types.STRING,
+  friend: {
+    type: dgraph.Types.UID,
+    model: 'user', // related model name
+    count: true,
+    reverse: true
+  }
+});
+ 
+/**
+ * Set and create model out of the schema
+ */
+const User = dgraph.model(UserSchema);
+ 
+/**
+ * Creates a new user with passed fields
+ * 
+ * Returns the created user along with the generated uid
+ */
 
-// Create a client stub.
-function newClientStub() {
-    return new dgraph.DgraphClientStub("localhost:9080", grpc.credentials.createInsecure());
-}
 
-// Create a client.
-function newClient(clientStub) {
-    return new dgraph.DgraphClient(clientStub);
-}
 
-// Drop All - discard all data and start from a clean slate.
-async function dropAll(dgraphClient) {
-    const op = new dgraph.Operation();
-    op.setDropAll(true);
-    await dgraphClient.alter(op);
-}
+const user = (async () => await User.create({
+  name: 'Ashok Vishwakarma',
+  email: 'akvlko@gmail.com',
+  bio: 'My bio ...'
+}));
+ 
+console.log(user);
+
+
+// ####DGRAPH-JS
+// const dgraph = require("dgraph-js");
+// const grpc = require("grpc");
+
+// // Create a client stub.
+// function newClientStub() {
+//     return new dgraph.DgraphClientStub("localhost:9080", grpc.credentials.createInsecure());
+// }
+
+// // Create a client.
+// function newClient(clientStub) {
+//     return new dgraph.DgraphClient(clientStub);
+// }
+
+// // Drop All - discard all data and start from a clean slate.
+// async function dropAll(dgraphClient) {
+//     const op = new dgraph.Operation();
+//     op.setDropAll(true);
+//     await dgraphClient.alter(op);
+// }
 
 // Set schema.
 // async function setSchema(dgraphClient) {
@@ -117,24 +168,26 @@ async function dropAll(dgraphClient) {
 //     ppl.all.forEach((person) => console.log(person));
 // }
 
-async function main() {
-    const dgraphClientStub = newClientStub();
-    const dgraphClient = newClient(dgraphClientStub);
-    await dropAll(dgraphClient);
+// async function main() {
+//     const dgraphClientStub = newClientStub();
+//     const dgraphClient = newClient(dgraphClientStub);
+//     await dropAll(dgraphClient);
     // await setSchema(dgraphClient);
     // await createData(dgraphClient);
     // await queryData(dgraphClient);
 
     // Close the client stub.
-    dgraphClientStub.close();
-}
+//     dgraphClientStub.close();
+// }
 
-main().then(() => {
-    console.log("\nDONE!");
-}).catch((e) => {
-    console.log("ERROR: ", e);
-});
+// main().then(() => {
+//     console.log("\nDONE!");
+// }).catch((e) => {
+//     console.log("ERROR: ", e);
+// });
 
+
+//GVERSE
 // import Gverse from "gverse";
 
 // const graph = new Gverse.Graph(
