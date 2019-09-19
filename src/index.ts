@@ -9,13 +9,10 @@ class User extends Gverse.Vertex {
     name: string = ""
   }
 
-
-
 async function createUser() {
-  const user = new User()
+  const user = new User();
   user.name = "Jason"
   await graph.create(user);
 }
 
 createUser();
-
