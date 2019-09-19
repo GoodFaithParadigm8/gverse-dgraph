@@ -1,4 +1,4 @@
-import Gverse from "gverse";
+import * as Gverse  from "gverse";
 
 const graph = new Gverse.Graph(
   new Gverse.Connection({ host: "localhost", port: 9080, debug: true })
@@ -9,11 +9,11 @@ class User extends Gverse.Vertex {
     name: string = ""
   }
 
-async function createUser(): Promise<User> {
+async function createUser(name: string): Promise<User> {
   const user = new User();
-  user.name = "Jason"
+  user.name = ""
   await graph.create(user);
   return user;
 }
 
-createUser();
+createUser("Jason");
